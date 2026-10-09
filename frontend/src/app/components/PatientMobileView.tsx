@@ -164,7 +164,7 @@ export function PatientMobileView({
   };
 
   return (
-    <div className="min-h-screen w-full bg-background">
+    <div className="min-h-screen w-full bg-background pb-20 md:pb-0">
       {callState && (
         <CallOverlay
           therapistName={callState.therapistName}
@@ -173,8 +173,8 @@ export function PatientMobileView({
         />
       )}
       <div className="w-full px-0 py-0">
-        <div className="rounded-3xl border border-border bg-card p-5 sm:p-6">
-          <h2 className="text-primary">MindCare</h2>
+        <div className="rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6">
+          <h2 className="text-lg text-primary sm:text-xl">MindCare</h2>
           <p className="text-sm text-muted-foreground">
             {profile?.therapistName
               ? t('patient.connectedTo', { therapist: profile.therapistName })
@@ -201,7 +201,7 @@ export function PatientMobileView({
           })}
         </div>
 
-        <div className={`mt-3 px-3 md:px-4 lg:px-6 ${activeTab === 'chat' ? 'h-[calc(100vh-170px)] overflow-hidden pb-24 md:pb-0' : 'pb-24 md:pb-0'}`}>
+        <div className="mt-3 px-3 pb-4 md:px-4 lg:px-6 md:pb-0">
           {activeTab === 'home' && (
             <MoodCalendar
               moodDays={data?.moods ?? []}
@@ -305,9 +305,9 @@ export function PatientMobileView({
             </div>
           )}
           {activeTab === 'chat' && (
-            <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
-              <div className="rounded-3xl border border-border bg-card p-4">
-                <h3 className="mb-3">{t('dashboard.chat')}</h3>
+            <div className="flex flex-col gap-4 lg:grid lg:grid-cols-[280px_1fr]">
+              <div className="rounded-3xl border border-border bg-card p-3 sm:p-4">
+                <h3 className="mb-3 text-base sm:text-lg">{t('dashboard.chat')}</h3>
                 <div className="space-y-2">
                   {sortedThreads.length > 0 ? sortedThreads.map((thread) => (
                     <button
@@ -321,7 +321,7 @@ export function PatientMobileView({
                       }`}
                     >
                       <div className="flex items-center justify-between gap-3">
-                        <p>{thread.therapistName}</p>
+                        <p className="truncate text-sm sm:text-base">{thread.therapistName}</p>
                         {thread.unreadCount > 0 ? (
                           <span className="inline-flex h-3.5 w-3.5 rounded-full bg-emerald-500" title={t('chat.unreadMessages')} />
                         ) : null}
@@ -334,29 +334,29 @@ export function PatientMobileView({
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="min-h-0 flex-1 space-y-4">
                 {selectedThread ? (
                   <>
-                    <div className="flex h-[calc(100vh-240px)] min-h-[560px] flex-col overflow-hidden rounded-3xl border border-border bg-background">
-                      <div className="bg-card border-b border-border px-6 py-3">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <button className="w-10 h-10 rounded-full hover:bg-muted flex items-center justify-center transition-colors">
-                              <ArrowLeft className="w-5 h-5" />
+                    <div className="flex h-[58vh] min-h-[420px] flex-col overflow-hidden rounded-3xl border border-border bg-background md:h-[calc(100vh-260px)]">
+                      <div className="border-b border-border bg-card px-3 py-3 sm:px-4 md:px-6">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex min-w-0 items-center gap-3">
+                            <button className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-muted transition-colors md:h-10 md:w-10">
+                              <ArrowLeft className="h-5 w-5" />
                             </button>
 
-                            <div className="flex items-center gap-3 rounded-xl px-3 py-2">
-                              <div className="relative">
-                                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
+                            <div className="flex min-w-0 items-center gap-3 rounded-xl px-2 py-1.5">
+                              <div className="relative shrink-0">
+                                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-[11px] font-medium text-primary-foreground sm:h-10 sm:w-10 sm:text-xs">
                                   {selectedThread.therapistName.split(' ').map((namePart) => namePart[0]).join('')}
                                 </div>
                                 {selectedThread.isOnline ? (
-                                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-background rounded-full" />
+                                  <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-background bg-green-500" />
                                 ) : null}
                               </div>
-                              <div className="text-left">
-                                <h4>{selectedThread.therapistName}</h4>
-                                <p className="text-xs text-muted-foreground">
+                              <div className="min-w-0 text-left">
+                                <h4 className="truncate text-sm sm:text-base">{selectedThread.therapistName}</h4>
+                                <p className="truncate text-[11px] text-muted-foreground sm:text-xs">
                                   {selectedThread.isOnline
                                     ? <span className="text-green-500">● {t('chat.online')}</span>
                                     : formatPresence(selectedThread.isOnline, selectedThread.therapistLastSeenAt)}
@@ -365,43 +365,39 @@ export function PatientMobileView({
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5 sm:gap-2">
                             <button
                               type="button"
                               onClick={() => (search.isOpen ? search.close() : search.open())}
                               title={t('chat.search')}
                               aria-label={t('chat.search')}
-                              className={`w-10 h-10 rounded-full hover:bg-muted flex items-center justify-center transition-colors ${search.isOpen ? 'bg-muted' : ''}`}
+                              className={`flex h-9 w-9 items-center justify-center rounded-full hover:bg-muted transition-colors ${search.isOpen ? 'bg-muted' : ''}`}
                             >
-                              <Search className="w-5 h-5 text-muted-foreground" />
+                              <Search className="h-4 w-4 text-muted-foreground sm:h-5 sm:w-5" />
                             </button>
                             <button
                               type="button"
-                              onClick={() => {
-                                handleStartCall('audio');
-                              }}
-                              className="w-10 h-10 rounded-full hover:bg-muted flex items-center justify-center transition-colors"
+                              onClick={() => handleStartCall('audio')}
+                              className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-muted transition-colors"
                             >
-                              <Phone className="w-5 h-5 text-muted-foreground" />
+                              <Phone className="h-4 w-4 text-muted-foreground sm:h-5 sm:w-5" />
                             </button>
                             <button
                               type="button"
-                              onClick={() => {
-                                handleStartCall('video');
-                              }}
-                              className="w-10 h-10 rounded-full hover:bg-muted flex items-center justify-center transition-colors"
+                              onClick={() => handleStartCall('video')}
+                              className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-muted transition-colors"
                             >
-                              <Video className="w-5 h-5 text-muted-foreground" />
+                              <Video className="h-4 w-4 text-muted-foreground sm:h-5 sm:w-5" />
                             </button>
-                            <button className="w-10 h-10 rounded-full hover:bg-muted flex items-center justify-center transition-colors">
-                              <MoreVertical className="w-5 h-5 text-muted-foreground" />
+                            <button className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-muted transition-colors">
+                              <MoreVertical className="h-4 w-4 text-muted-foreground sm:h-5 sm:w-5" />
                             </button>
                           </div>
                         </div>
                       </div>
 
-                      <div className="bg-card px-6 pb-4">
-                        <p className="text-xs text-muted-foreground">{selectedThread.therapistEmail}</p>
+                      <div className="border-b border-border bg-card px-3 py-3 sm:px-4 md:px-6">
+                        <p className="text-[11px] text-muted-foreground sm:text-xs">{selectedThread.therapistEmail}</p>
                         {selectedThreadSlots.length > 0 ? (
                           <div className="mt-2">
                             <div className="flex flex-wrap gap-2">
@@ -413,13 +409,13 @@ export function PatientMobileView({
                                   onClick={() => {
                                     void onBookAppointment(slot.id);
                                   }}
-                                  className="rounded-xl border border-border bg-muted/50 px-2.5 py-1.5 text-xs hover:bg-muted disabled:opacity-60"
+                                  className="rounded-xl border border-border bg-muted/50 px-2.5 py-1.5 text-[11px] hover:bg-muted disabled:opacity-60 sm:text-xs"
                                 >
                                   {slot.day} {slot.date} • {slot.time}
                                 </button>
                               ))}
                             </div>
-                            <p className="mt-2 text-xs text-muted-foreground">{t('booking.requestHint')}</p>
+                            <p className="mt-2 text-[11px] text-muted-foreground sm:text-xs">{t('booking.requestHint')}</p>
                           </div>
                         ) : null}
                       </div>
@@ -431,34 +427,34 @@ export function PatientMobileView({
                           chatScrollRef.current = node;
                           search.containerRef.current = node;
                         }}
-                        className="flex-1 overflow-y-auto p-6"
+                        className="min-h-0 flex-1 overflow-y-auto p-3 sm:p-4 md:p-6"
                       >
                         <div className="space-y-4">
                           {messagesWithSeparators.map(({ message, showDateSeparator, dateLabel }) => (
                             <div key={message.id} data-message-id={message.id}>
                               {showDateSeparator && dateLabel ? (
                                 <div className="mb-3 flex justify-center">
-                                  <span className="rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground">
+                                  <span className="rounded-full border border-border bg-card px-3 py-1 text-[10px] text-muted-foreground sm:text-xs">
                                     {dateLabel}
                                   </span>
                                 </div>
                               ) : null}
 
                               <div className={`flex ${message.sender === 'patient' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[70%] ${message.sender === 'patient' ? 'bg-primary text-primary-foreground' : 'bg-card border border-border text-foreground'} rounded-2xl px-4 py-3`}>
-                                  <p>
+                                <div className={`max-w-[78%] rounded-2xl px-3 py-2.5 sm:px-4 sm:py-3 ${message.sender === 'patient' ? 'bg-primary text-primary-foreground' : 'border border-border bg-card text-foreground'}`}>
+                                  <p className="break-words text-sm sm:text-base">
                                     <HighlightedText
                                       text={message.text}
                                       query={search.normalizedQuery}
                                       activeOccurrence={search.activeMatch?.messageId === message.id ? search.activeMatch.occurrence : -1}
                                     />
                                   </p>
-                                  <div className={`mt-1 flex items-center justify-end gap-1 text-xs ${message.sender === 'patient' ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
+                                  <div className={`mt-1 flex items-center justify-end gap-1 text-[10px] sm:text-xs ${message.sender === 'patient' ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
                                     <span>{message.time}</span>
                                     {message.sender === 'patient' ? (
                                       message.isRead
-                                        ? <CheckCheck className="h-3.5 w-3.5 text-green-300" />
-                                        : <Check className="h-3.5 w-3.5 opacity-70" />
+                                        ? <CheckCheck className="h-3 w-3 text-green-300 sm:h-3.5 sm:w-3.5" />
+                                        : <Check className="h-3 w-3 opacity-70 sm:h-3.5 sm:w-3.5" />
                                     ) : null}
                                   </div>
                                 </div>
@@ -476,35 +472,35 @@ export function PatientMobileView({
                       {search.isOpen && search.normalizedQuery ? (
                         <ChatSearchNav search={search} />
                       ) : (
-                      <div className="border-t border-border bg-card p-4">
-                        <div className="flex items-center gap-3">
-                          <input
-                            value={chatInput}
-                            onChange={(event) => setChatInput(event.target.value)}
-                            onKeyDown={(event) => {
-                              if (event.key === 'Enter' && chatInput.trim()) {
+                        <div className="border-t border-border bg-card p-3 sm:p-4">
+                          <div className="flex items-center gap-2 sm:gap-3">
+                            <input
+                              value={chatInput}
+                              onChange={(event) => setChatInput(event.target.value)}
+                              onKeyDown={(event) => {
+                                if (event.key === 'Enter' && chatInput.trim()) {
+                                  void onSendMessageToTherapist(selectedThread.therapistId, selectedThread.conversationId, chatInput.trim());
+                                  setChatInput('');
+                                }
+                              }}
+                              placeholder={t('chat.typeMessage')}
+                              className="flex-1 rounded-xl border border-border bg-input-background px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring sm:px-4"
+                            />
+
+                            <button
+                              type="button"
+                              disabled={isMutating || !chatInput.trim()}
+                              onClick={() => {
+                                if (!chatInput.trim()) return;
                                 void onSendMessageToTherapist(selectedThread.therapistId, selectedThread.conversationId, chatInput.trim());
                                 setChatInput('');
-                              }
-                            }}
-                            placeholder={t('chat.typeMessage')}
-                            className="flex-1 bg-input-background rounded-xl px-4 py-3 border border-border focus:outline-none focus:ring-2 focus:ring-ring"
-                          />
-
-                          <button
-                            type="button"
-                            disabled={isMutating || !chatInput.trim()}
-                            onClick={() => {
-                              if (!chatInput.trim()) return;
-                              void onSendMessageToTherapist(selectedThread.therapistId, selectedThread.conversationId, chatInput.trim());
-                              setChatInput('');
-                            }}
-                            className="w-10 h-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-60"
-                          >
-                            <Send className="w-5 h-5" />
-                          </button>
+                              }}
+                              className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+                            >
+                              <Send className="h-4 w-4" />
+                            </button>
+                          </div>
                         </div>
-                      </div>
                       )}
                     </div>
                   </>
