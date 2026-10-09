@@ -197,50 +197,44 @@ export function AuthScreen({ onAuthenticated }: AuthScreenProps) {
   };
 
   return (
-    <div className="min-h-screen bg-background p-3 sm:p-5 lg:p-8">
-      <div className="mx-auto flex min-h-[calc(100vh-1.5rem)] w-full max-w-[1200px] flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-2xl sm:min-h-[640px] md:flex-row">
-        <section className="hidden w-full flex-col justify-between bg-primary p-8 text-primary-foreground md:flex md:w-1/2 lg:p-10">
-          <div>
-            <p className="text-sm uppercase tracking-[0.2em] opacity-90">{t('auth.platformTitle')}</p>
-            <h1 className="mt-6 text-3xl leading-tight xl:text-4xl">{t('auth.platformSubtitle')}</h1>
+    <div className="min-h-screen overflow-x-hidden bg-background p-3 sm:p-5 lg:p-8">
+      <div className="mx-auto flex min-h-[calc(100vh-1.5rem)] w-full max-w-[1200px] flex-col overflow-hidden rounded-[28px] border border-border bg-card shadow-2xl sm:min-h-[640px] md:flex-row">
+        <section className="flex w-full flex-col justify-between bg-primary p-5 text-primary-foreground md:w-1/2 md:p-8 lg:p-10">
+          <div className="mb-6 md:mb-0">
+            <p className="text-[11px] uppercase tracking-[0.22em] opacity-90 md:text-sm">{t('auth.platformTitle')}</p>
+            <h1 className="mt-4 max-w-[540px] text-[clamp(2rem,5vw,3.4rem)] leading-[0.98] md:mt-6">
+              {t('auth.platformSubtitle')}
+            </h1>
           </div>
-          <p className="text-sm opacity-90">
+
+          <p className="mt-6 max-w-[420px] text-sm opacity-90 md:mt-0 md:text-base">
             {t('auth.platformDescription')}
           </p>
         </section>
 
-        <section className="flex w-full min-h-0 flex-col justify-between p-4 sm:p-6 lg:p-10 md:w-1/2">
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <div className="md:hidden">
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{t('auth.platformTitle')}</p>
-              <h2 className="mt-2 text-3xl leading-tight text-foreground">
-                {mode === 'login' ? t('auth.welcomeBack') : t('auth.createAccount')}
-              </h2>
-            </div>
-
-            <div className="ml-auto flex gap-2">
-              {languageOptions.map((option) => (
-                <button
-                  key={option.id}
-                  onClick={() => {
-                    setLanguage(option.id);
-                    setPreferredLanguage(option.id);
-                  }}
-                  className={`rounded-lg px-3 py-2 text-sm transition-all ${
-                    language === option.id
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                  }`}
-                >
-                  {option.flag} {option.id.toUpperCase()}
-                </button>
-              ))}
-            </div>
+        <section className="flex w-full flex-col justify-between p-4 sm:p-5 md:w-1/2 md:p-6 lg:p-9">
+          <div className="mb-4 flex flex-wrap items-center justify-end gap-2 self-end">
+            {languageOptions.map((option) => (
+              <button
+                key={option.id}
+                onClick={() => {
+                  setLanguage(option.id);
+                  setPreferredLanguage(option.id);
+                }}
+                className={`rounded-full px-3 py-2 text-sm transition-all ${
+                  language === option.id
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                }`}
+              >
+                {option.flag} {option.id.toUpperCase()}
+              </button>
+            ))}
           </div>
 
           <div className="mx-auto flex w-full max-w-[420px] flex-1 flex-col justify-start py-2 sm:py-4">
-            <div className="hidden md:block">
-              <h2 className="text-2xl lg:text-3xl">
+            <div className="mb-4 md:mb-6">
+              <h2 className="text-[clamp(1.8rem,4vw,2.6rem)] leading-tight text-foreground">
                 {mode === 'login' ? t('auth.welcomeBack') : t('auth.createAccount')}
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -250,168 +244,168 @@ export function AuthScreen({ onAuthenticated }: AuthScreenProps) {
               </p>
             </div>
 
-            <form className="mt-6 w-full space-y-4 overflow-y-auto pr-1" onSubmit={handleSubmit}>
-                  {mode === 'register' && (
-                    <div>
-                      <label className="mb-2 block text-sm text-foreground" htmlFor="fullName">
-                        {t('auth.fullName')}
-                      </label>
-                      <input
-                        id="fullName"
-                        type="text"
-                        value={fullName}
-                        onChange={(event) => setFullName(event.target.value)}
-                        className="h-11 w-full rounded-xl border border-border bg-input-background px-4"
-                        placeholder={t('auth.fullNamePlaceholder')}
-                        autoComplete="name"
-                        required
-                      />
-                    </div>
-                  )}
+            <form className="w-full space-y-4" onSubmit={handleSubmit}>
+              {mode === 'register' && (
+                <div>
+                  <label className="mb-2 block text-sm text-foreground" htmlFor="fullName">
+                    {t('auth.fullName')}
+                  </label>
+                  <input
+                    id="fullName"
+                    type="text"
+                    value={fullName}
+                    onChange={(event) => setFullName(event.target.value)}
+                    className="h-12 w-full rounded-xl border border-border bg-input-background px-4 text-base"
+                    placeholder={t('auth.fullNamePlaceholder')}
+                    autoComplete="name"
+                    required
+                  />
+                </div>
+              )}
 
-                  {mode === 'register' && (
-                    <div>
-                      <label className="mb-2 block text-sm text-foreground" htmlFor="username">
-                        {t('profile.username')}
-                      </label>
-                      <div className="flex gap-2">
-                        <input
-                          id="username"
-                          type="text"
-                          value={username}
-                          onChange={(event) => setUsername(event.target.value)}
-                          className="h-11 w-full rounded-xl border border-border bg-input-background px-4"
-                          placeholder="@alexrivera"
-                          autoComplete="username"
-                          required
-                        />
-                        <button
-                          type="button"
-                          onClick={generateRandomUsername}
-                          className="h-11 shrink-0 rounded-xl border border-border px-3 text-sm hover:bg-muted"
-                        >
-                          {t('auth.generateUsername')}
-                        </button>
-                      </div>
-                      <p className={`mt-2 text-xs ${isUsernameAvailable === false ? 'text-destructive' : 'text-muted-foreground'}`}>
-                        {isCheckingUsername
-                          ? t('auth.checkingUsername')
-                          : isUsernameAvailable === false
-                          ? t('auth.usernameTaken')
-                          : isUsernameAvailable === true
+              {mode === 'register' && (
+                <div>
+                  <label className="mb-2 block text-sm text-foreground" htmlFor="username">
+                    {t('profile.username')}
+                  </label>
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    <input
+                      id="username"
+                      type="text"
+                      value={username}
+                      onChange={(event) => setUsername(event.target.value)}
+                      className="h-12 w-full rounded-xl border border-border bg-input-background px-4 text-base"
+                      placeholder="@alexrivera"
+                      autoComplete="username"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={generateRandomUsername}
+                      className="h-12 shrink-0 rounded-xl border border-border px-3 text-sm hover:bg-muted"
+                    >
+                      {t('auth.generateUsername')}
+                    </button>
+                  </div>
+                  <p className={`mt-2 text-xs ${isUsernameAvailable === false ? 'text-destructive' : 'text-muted-foreground'}`}>
+                    {isCheckingUsername
+                      ? t('auth.checkingUsername')
+                      : isUsernameAvailable === false
+                        ? t('auth.usernameTaken')
+                        : isUsernameAvailable === true
                           ? t('auth.usernameAvailable')
                           : t('auth.usernameHint')}
-                      </p>
-                    </div>
-                  )}
+                  </p>
+                </div>
+              )}
 
-                  {mode === 'register' && (
-                    <div>
-                      <label className="mb-2 block text-sm text-foreground">
-                        {t('auth.chooseWorkspace')}
-                      </label>
-                      <div className="space-y-3">
-                        {roleOptions.map((option) => {
-                          const isSelected = roles.includes(option.id);
+              {mode === 'register' && (
+                <div>
+                  <label className="mb-2 block text-sm text-foreground">
+                    {t('auth.chooseWorkspace')}
+                  </label>
+                  <div className="space-y-3">
+                    {roleOptions.map((option) => {
+                      const isSelected = roles.includes(option.id);
 
-                          return (
-                            <button
-                              key={option.id}
-                              type="button"
-                              onClick={() => {
-                                setRoles((current) =>
-                                  current.includes(option.id)
-                                    ? current.filter((roleItem) => roleItem !== option.id)
-                                    : [...current, option.id]
-                                );
-                              }}
-                              className={`w-full rounded-2xl border px-4 py-4 text-left transition-all ${
-                                isSelected
-                                  ? 'border-primary bg-primary/10 shadow-sm'
-                                  : 'border-border bg-background hover:border-primary/40 hover:bg-muted/50'
-                              }`}
-                            >
-                              <div className="flex items-start justify-between gap-3">
-                                <div>
-                                  <p className="text-sm text-foreground">{option.title}</p>
-                                  <p className="mt-1 text-xs text-muted-foreground">{option.description}</p>
-                                </div>
-                                <div className={`mt-1 h-5 w-5 rounded-full border ${isSelected ? 'border-primary bg-primary' : 'border-border'}`} />
-                              </div>
-                            </button>
-                          );
-                        })}
-                      </div>
-                      <p className="mt-2 text-xs text-muted-foreground">
-                        {t('auth.selectBoth')}
-                      </p>
-                    </div>
-                  )}
-
-                  <div>
-                    <label className="mb-2 block text-sm text-foreground" htmlFor="email">
-                      {t('auth.email')}
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                      className="h-11 w-full rounded-xl border border-border bg-input-background px-4"
-                      placeholder={t('auth.emailPlaceholder')}
-                      autoComplete="email"
-                      required
-                    />
+                      return (
+                        <button
+                          key={option.id}
+                          type="button"
+                          onClick={() => {
+                            setRoles((current) =>
+                              current.includes(option.id)
+                                ? current.filter((roleItem) => roleItem !== option.id)
+                                : [...current, option.id]
+                            );
+                          }}
+                          className={`w-full rounded-2xl border px-4 py-3 text-left transition-all sm:py-4 ${
+                            isSelected
+                              ? 'border-primary bg-primary/10 shadow-sm'
+                              : 'border-border bg-background hover:border-primary/40 hover:bg-muted/50'
+                          }`}
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <div>
+                              <p className="text-sm text-foreground">{option.title}</p>
+                              <p className="mt-1 text-xs text-muted-foreground">{option.description}</p>
+                            </div>
+                            <div className={`mt-1 h-5 w-5 rounded-full border ${isSelected ? 'border-primary bg-primary' : 'border-border'}`} />
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {t('auth.selectBoth')}
+                  </p>
+                </div>
+              )}
 
-                  <div>
-                    <label className="mb-2 block text-sm text-foreground" htmlFor="password">
-                      {t('auth.password')}
-                    </label>
-                    <input
-                      id="password"
-                      type="password"
-                      value={password}
-                      onChange={(event) => setPassword(event.target.value)}
-                      className="h-11 w-full rounded-xl border border-border bg-input-background px-4"
-                      autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                      required
-                    />
-                  </div>
+              <div>
+                <label className="mb-2 block text-sm text-foreground" htmlFor="email">
+                  {t('auth.email')}
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  className="h-12 w-full rounded-xl border border-border bg-input-background px-4 text-base"
+                  placeholder={t('auth.emailPlaceholder')}
+                  autoComplete="email"
+                  required
+                />
+              </div>
 
-                  {mode === 'register' && (
-                    <div>
-                      <label className="mb-2 block text-sm text-foreground" htmlFor="confirmPassword">
-                        {t('auth.confirmPassword')}
-                      </label>
-                      <input
-                        id="confirmPassword"
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(event) => setConfirmPassword(event.target.value)}
-                        className="h-11 w-full rounded-xl border border-border bg-input-background px-4"
-                        autoComplete="new-password"
-                        required
-                      />
-                    </div>
-                  )}
+              <div>
+                <label className="mb-2 block text-sm text-foreground" htmlFor="password">
+                  {t('auth.password')}
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  className="h-12 w-full rounded-xl border border-border bg-input-background px-4 text-base"
+                  autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                  required
+                />
+              </div>
 
-                  {error && (
-                    <div className="rounded-xl border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                      {error.split('\n').map((line, index) => (
-                        <p key={index} className={index > 0 ? 'mt-1' : ''}>{line}</p>
-                      ))}
-                    </div>
-                  )}
+              {mode === 'register' && (
+                <div>
+                  <label className="mb-2 block text-sm text-foreground" htmlFor="confirmPassword">
+                    {t('auth.confirmPassword')}
+                  </label>
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    className="h-12 w-full rounded-xl border border-border bg-input-background px-4 text-base"
+                    autoComplete="new-password"
+                    required
+                  />
+                </div>
+              )}
 
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="h-11 w-full rounded-xl bg-primary px-4 text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
-                  >
-                    {loading ? t('auth.pleaseWait') : mode === 'login' ? t('auth.signIn') : t('auth.signUp')}
-                  </button>
-                </form>
+              {error && (
+                <div className="rounded-xl border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                  {error.split('\n').map((line, index) => (
+                    <p key={index} className={index > 0 ? 'mt-1' : ''}>{line}</p>
+                  ))}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="h-12 w-full rounded-xl bg-primary px-4 text-base text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {loading ? t('auth.pleaseWait') : mode === 'login' ? t('auth.signIn') : t('auth.signUp')}
+              </button>
+            </form>
 
             <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
               <button
