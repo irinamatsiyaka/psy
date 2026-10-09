@@ -12,7 +12,19 @@ const app = express();
 
 app.use(
   cors({
-    origin: env.CORS_ORIGIN,
+    origin: (requestOrigin, callback) => {
+      if (!requestOrigin) {
+        callback(null, true);
+        return;
+      }
+
+      if (env.CORS_ORIGINS.includes(requestOrigin) || env.CORS_ORIGINS.includes("*")) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`Origin ${requestOrigin} not allowed by CORS`));
+    },
     credentials: true
   })
 );

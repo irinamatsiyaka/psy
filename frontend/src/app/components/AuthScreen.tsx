@@ -197,53 +197,60 @@ export function AuthScreen({ onAuthenticated }: AuthScreenProps) {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 sm:p-8">
-      <div className="mx-auto flex min-h-[calc(100vh-2rem)] max-w-5xl overflow-hidden rounded-3xl border border-border bg-card shadow-2xl sm:min-h-[640px]">
-        <section className="hidden w-1/2 flex-col justify-between bg-primary p-10 text-primary-foreground md:flex">
+    <div className="min-h-screen bg-background p-3 sm:p-5 lg:p-8">
+      <div className="mx-auto flex min-h-[calc(100vh-1.5rem)] w-full max-w-[1200px] flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-2xl sm:min-h-[640px] md:flex-row">
+        <section className="hidden w-full flex-col justify-between bg-primary p-8 text-primary-foreground md:flex md:w-1/2 lg:p-10">
           <div>
             <p className="text-sm uppercase tracking-[0.2em] opacity-90">{t('auth.platformTitle')}</p>
-            <h1 className="mt-6 text-4xl leading-tight">{t('auth.platformSubtitle')}</h1>
+            <h1 className="mt-6 text-3xl leading-tight xl:text-4xl">{t('auth.platformSubtitle')}</h1>
           </div>
           <p className="text-sm opacity-90">
             {t('auth.platformDescription')}
           </p>
         </section>
 
-        <section className="flex w-full min-h-0 flex-col justify-between overflow-y-auto p-6 sm:p-10 md:w-1/2">
-          {/* Language Selector (always visible) */}
-          <div className="mb-4 flex justify-end gap-2">
-            {languageOptions.map((option) => (
-              <button
-                key={option.id}
-                onClick={() => {
-                  setLanguage(option.id);
-                  setPreferredLanguage(option.id);
-                }}
-                className={`px-3 py-2 rounded-lg text-sm transition-all ${
-                  language === option.id
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                }`}
-              >
-                {option.flag} {option.id.toUpperCase()}
-              </button>
-            ))}
+        <section className="flex w-full min-h-0 flex-col justify-between p-4 sm:p-6 lg:p-10 md:w-1/2">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <div className="md:hidden">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{t('auth.platformTitle')}</p>
+              <h2 className="mt-2 text-3xl leading-tight text-foreground">
+                {mode === 'login' ? t('auth.welcomeBack') : t('auth.createAccount')}
+              </h2>
+            </div>
+
+            <div className="ml-auto flex gap-2">
+              {languageOptions.map((option) => (
+                <button
+                  key={option.id}
+                  onClick={() => {
+                    setLanguage(option.id);
+                    setPreferredLanguage(option.id);
+                  }}
+                  className={`rounded-lg px-3 py-2 text-sm transition-all ${
+                    language === option.id
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  }`}
+                >
+                  {option.flag} {option.id.toUpperCase()}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Main content area */}
-          <div className="flex min-h-0 flex-col flex-1 justify-start py-4">
-            
-              
-                <h2 className="text-2xl">
-                  {mode === 'login' ? t('auth.welcomeBack') : t('auth.createAccount')}
-                </h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {mode === 'login'
-                    ? t('auth.signInToContinue')
-                    : t('auth.setupProfile')}
-                </p>
+          <div className="mx-auto flex w-full max-w-[420px] flex-1 flex-col justify-start py-2 sm:py-4">
+            <div className="hidden md:block">
+              <h2 className="text-2xl lg:text-3xl">
+                {mode === 'login' ? t('auth.welcomeBack') : t('auth.createAccount')}
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {mode === 'login'
+                  ? t('auth.signInToContinue')
+                  : t('auth.setupProfile')}
+              </p>
+            </div>
 
-                <form className="mt-8 space-y-4 overflow-y-auto pr-1" onSubmit={handleSubmit}>
+            <form className="mt-6 w-full space-y-4 overflow-y-auto pr-1" onSubmit={handleSubmit}>
                   {mode === 'register' && (
                     <div>
                       <label className="mb-2 block text-sm text-foreground" htmlFor="fullName">
@@ -406,28 +413,26 @@ export function AuthScreen({ onAuthenticated }: AuthScreenProps) {
                   </button>
                 </form>
 
-                <div className="mt-4 flex items-center gap-2 flex-wrap">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMode((current) => (current === 'login' ? 'register' : 'login'));
-                      setError('');
-                    }}
-                    className="text-sm text-primary hover:underline"
-                  >
-                    {mode === 'login' ? t('auth.needAccount') : t('auth.haveAccount')}
-                  </button>
-                  <span className="text-muted-foreground">•</span>
-                  <button
-                    type="button"
-                    onClick={() => setMode('language')}
-                    className="text-sm text-primary hover:underline"
-                  >
-                    {t('auth.changeLanguage')}
-                  </button>
-                </div>
-              
-            
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
+              <button
+                type="button"
+                onClick={() => {
+                  setMode((current) => (current === 'login' ? 'register' : 'login'));
+                  setError('');
+                }}
+                className="text-primary hover:underline"
+              >
+                {mode === 'login' ? t('auth.needAccount') : t('auth.haveAccount')}
+              </button>
+              <span className="text-muted-foreground">•</span>
+              <button
+                type="button"
+                onClick={() => setMode('language')}
+                className="text-primary hover:underline"
+              >
+                {t('auth.changeLanguage')}
+              </button>
+            </div>
           </div>
         </section>
       </div>

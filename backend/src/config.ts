@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import { z } from "zod";
+import { normalizeCorsOrigins } from "./cors";
 
 dotenv.config();
 
@@ -27,5 +28,6 @@ if (!parsed.success) {
 
 export const env = {
   ...parsed.data,
-  COOKIE_SECURE: parsed.data.COOKIE_SECURE ?? false
+  COOKIE_SECURE: parsed.data.COOKIE_SECURE ?? false,
+  CORS_ORIGINS: normalizeCorsOrigins(parsed.data.CORS_ORIGIN)
 };
